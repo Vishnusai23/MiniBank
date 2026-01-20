@@ -1,0 +1,78 @@
+<div class="page">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <span class="logo-icon">🏦</span>
+      <span class="logo-text">Mini Bank</span>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="main-content">
+
+    <section class="transactions-card">
+
+      <h2>All Transactions</h2>
+
+      <!-- Loading -->
+      <p *ngIf="loading">Loading transactions...</p>
+
+      <!-- Error -->
+      <p *ngIf="!loading && errorMessage" class="error">
+        {{ errorMessage }}
+      </p>
+
+      <!-- Transactions Table -->
+      <div class="table-wrapper" *ngIf="!loading && transactions.length > 0">
+        <table>
+          <thead>
+            <tr>
+              <th>Txn ID</th>
+              <th>Account No</th>
+              <th>Holder Name</th>
+              <th>Email</th>
+              <th>Type</th>
+              <th>Amount</th>
+              <th>Description</th>
+              <th>Date & Time</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let tx of transactions">
+              <td>{{ tx.transactionId }}</td>
+              <td>{{ tx.accountNumber }}</td>
+              <td>{{ tx.fullName }}</td>
+              <td>{{ tx.userEmail }}</td>
+              <td>{{ tx.type }}</td>
+              <td>₹ {{ tx.amount }}</td>
+              <td>{{ tx.description }}</td>
+              <td>{{ tx.transactionTime | date:'medium' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Empty -->
+      <p *ngIf="!loading && transactions.length === 0">
+        No transactions found
+      </p>
+
+      <!-- Back -->
+      <div class="actions">
+        <button class="btn back" (click)="goBack()">
+          Back to Dashboard
+        </button>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    © 2026 Mini Bank. All rights reserved.
+  </footer>
+
+</div>

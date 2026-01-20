@@ -1,0 +1,85 @@
+<div class="page">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <span class="logo-icon">🏦</span>
+      <span class="logo-text">Mini Bank</span>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="main-content">
+
+    <section class="accounts-card">
+
+      <h2>All Bank Accounts</h2>
+
+      <p *ngIf="loading">Loading accounts...</p>
+      <p *ngIf="!loading && errorMessage" class="error">
+        {{ errorMessage }}
+      </p>
+
+      <table *ngIf="!loading && accounts.length > 0">
+        <thead>
+          <tr>
+            <th>Account No</th>
+            <th>Account Holder</th>
+            <th>Email</th>
+            <th>Type</th>
+            <th>Balance</th>
+            <th>Status</th>
+            <th>Change Status</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let acc of accounts">
+            <td>{{ acc.accountNumber }}</td>
+            <td>{{ acc.fullName }}</td>
+            <td>{{ acc.userEmail }}</td>
+            <td>{{ acc.accountType }}</td>
+            <td>₹ {{ acc.balance }}</td>
+            <td>{{ acc.status }}</td>
+
+            <!-- 🔥 STATUS CHANGE -->
+            <td>
+              <select #statusSelect>
+                <option
+                  *ngFor="let s of statuses"
+                  [value]="s"
+                  [selected]="s === acc.status">
+                  {{ s }}
+                </option>
+              </select>
+
+              <button
+                class="btn small"
+                (click)="updateStatus(acc.accountNumber, statusSelect.value)">
+                Update
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p *ngIf="!loading && accounts.length === 0">
+        No accounts found
+      </p>
+
+      <div class="actions">
+        <button class="btn back" (click)="goBack()">
+          Back to Dashboard
+        </button>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    © 2026 Mini Bank. All rights reserved.
+  </footer>
+
+</div>

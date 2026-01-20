@@ -1,0 +1,156 @@
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="logo">
+      <span class="logo-icon">🏦</span>
+      <span class="logo-text">Mini Bank</span>
+    </div>
+
+    <nav class="nav">
+      <button class="btn outline" (click)="goDashboard()">Dashboard</button>
+      <button class="btn outline" (click)="logout()">Logout</button>
+    </nav>
+  </header>
+
+  <!-- CONTENT -->
+  <div class="form-container">
+    <div class="card">
+
+      <h2>Deposit Money</h2>
+      <p class="subtitle">Add money to your account</p>
+
+      <form #depositForm="ngForm" (ngSubmit)="deposit(depositForm)" novalidate>
+
+        <!-- AMOUNT -->
+        <input
+          type="number"
+          name="amount"
+          placeholder="Amount (₹)"
+          [(ngModel)]="amount"
+          min="1"
+          required
+          #amountRef="ngModel" />
+
+        <small class="field-error"
+          *ngIf="amountRef.invalid && amountRef.touched">
+          Enter a valid amount
+        </small>
+
+        <!-- METHOD -->
+        <select
+          name="method"
+          [(ngModel)]="method"
+          required
+          #methodRef="ngModel"
+          (change)="onMethodChange()">
+
+          <option value="">Select Deposit Method</option>
+          <option value="UPI">UPI</option>
+          <option value="DEBIT_CARD">Debit Card</option>
+        </select>
+
+        <small class="field-error"
+          *ngIf="methodRef.invalid && methodRef.touched">
+          Please select deposit method
+        </small>
+
+        <!-- ================= UPI ================= -->
+        <div *ngIf="method === 'UPI'">
+
+          <input
+            type="text"
+            name="upiId"
+            placeholder="UPI ID (example@upi)"
+            [(ngModel)]="upiId"
+            required
+            #upiRef="ngModel"
+            pattern="^[a-zA-Z0-9._-]{2,}@[a-zA-Z]{2,}$" />
+
+          <small class="field-error"
+            *ngIf="upiRef.invalid && upiRef.touched">
+            Enter valid UPI ID
+          </small>
+
+        </div>
+
+        <!-- ================= CARD ================= -->
+        <div *ngIf="method === 'DEBIT_CARD'">
+
+          <!-- CARD NUMBER -->
+          <input
+            type="text"
+            name="cardNumber"
+            placeholder="Card Number"
+            maxlength="16"
+            [(ngModel)]="cardNumber"
+            required
+            pattern="^[0-9]{16}$"
+            #cardRef="ngModel"
+            (input)="allowNumbersOnly($event)" />
+
+          <small class="field-error"
+            *ngIf="cardRef.invalid && cardRef.touched">
+            Card number must be 16 digits
+          </small>
+
+          <!-- EXPIRY -->
+          <input
+            type="text"
+            name="expiry"
+            placeholder="MM/YY"
+            maxlength="5"
+            [(ngModel)]="expiry"
+            required
+            #expiryRef="ngModel"
+            (input)="formatExpiry($event)"
+            (blur)="validateExpiry()" />
+
+          <small class="field-error"
+            *ngIf="expiryError">
+            Card expiry date is invalid or expired
+          </small>
+
+          <!-- CVV -->
+          <input
+            type="password"
+            name="cvv"
+            placeholder="CVV"
+            maxlength="3"
+            [(ngModel)]="cvv"
+            required
+            pattern="^[0-9]{3}$"
+            #cvvRef="ngModel"
+            (input)="allowNumbersOnly($event)" />
+
+          <small class="field-error"
+            *ngIf="cvvRef.invalid && cvvRef.touched">
+            CVV must be 3 digits
+          </small>
+
+        </div>
+
+        <!-- STATUS -->
+        <p *ngIf="loading" class="info">Processing deposit...</p>
+        <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+        <p *ngIf="successMessage" class="success">{{ successMessage }}</p>
+
+        <!-- SUBMIT -->
+        <button
+          type="submit"
+          class="btn primary full"
+          [disabled]="loading || depositForm.invalid || expiryError">
+          Deposit
+        </button>
+
+      </form>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    © 2026 Mini Bank. All rights reserved.
+  </footer>
+
+</div>

@@ -1,0 +1,145 @@
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="logo">
+      <span class="logo-icon">🏦</span>
+      <span class="logo-text">Mini Bank</span>
+    </div>
+
+    <nav class="nav">
+      <button routerLink="/dashboard" class="btn outline">Dashboard</button>
+      <button routerLink="/" class="btn outline">Logout</button>
+    </nav>
+  </header>
+
+  <!-- FORM -->
+  <div class="form-container">
+    <div class="card">
+      <h2>Open Bank Account</h2>
+      <p class="subtitle">Fill your details to create an account</p>
+
+      <form #accountForm="ngForm" (ngSubmit)="submit()" novalidate>
+
+        <!-- FULL NAME -->
+        <input type="text"
+               placeholder="Full Name"
+               name="fullName"
+               [(ngModel)]="fullName"
+               #fullNameRef="ngModel"
+               required
+               minlength="3" />
+
+        <small class="error"
+          *ngIf="fullNameRef.invalid && (fullNameRef.touched || accountForm.submitted)">
+          Full name is required (min 3 characters)
+        </small>
+
+        <!-- DATE OF BIRTH -->
+        <input type="date"
+               name="dob"
+               [(ngModel)]="dob"
+               #dobRef="ngModel"
+               required
+               [max]="maxDob"
+               [min]="minDob"
+               (change)="validateDob()" />
+
+        <small class="error" *ngIf="dobError">
+          Age must be 18+ and DOB within last 100 years
+        </small>
+
+        <!-- PHONE NUMBER -->
+        <input type="text"
+               placeholder="Phone Number"
+               name="phoneNumber"
+               maxlength="10"
+               [(ngModel)]="phoneNumber"
+               #phoneRef="ngModel"
+               required
+               pattern="^[6-9][0-9]{9}$" />
+
+        <small class="error"
+          *ngIf="phoneRef.invalid && (phoneRef.touched || accountForm.submitted)">
+          Enter a valid 10-digit phone number
+        </small>
+
+        <!-- PAN NUMBER -->
+        <input type="text"
+               placeholder="PAN Number"
+               name="panNumber"
+               maxlength="10"
+               [(ngModel)]="panNumber"
+               #panRef="ngModel"
+               required
+               pattern="^[A-Z]{5}[0-9]{4}[A-Z]$" />
+
+        <small class="error"
+          *ngIf="panRef.invalid && (panRef.touched || accountForm.submitted)">
+          PAN must be in format ABCDE1234F
+        </small>
+
+        <!-- AADHAAR NUMBER -->
+        <input type="text"
+               placeholder="Aadhaar Number"
+               name="aadhaarNumber"
+               maxlength="12"
+               [(ngModel)]="aadhaarNumber"
+               #aadhaarRef="ngModel"
+               required
+               pattern="^[0-9]{12}$" />
+
+        <small class="error"
+          *ngIf="aadhaarRef.invalid && (aadhaarRef.touched || accountForm.submitted)">
+          Aadhaar must be exactly 12 digits
+        </small>
+
+        <!-- ADDRESS -->
+        <textarea placeholder="Address"
+                  name="address"
+                  [(ngModel)]="address"
+                  #addressRef="ngModel"
+                  required
+                  minlength="10"></textarea>
+
+        <small class="error"
+          *ngIf="addressRef.invalid && (addressRef.touched || accountForm.submitted)">
+          Address must be at least 10 characters
+        </small>
+
+        <!-- ACCOUNT TYPE -->
+        <select name="accountType"
+                [(ngModel)]="accountType"
+                #typeRef="ngModel"
+                required>
+          <option value="">Select Account Type</option>
+          <option value="SAVINGS">Savings Account</option>
+          <option value="CURRENT">Current Account</option>
+        </select>
+
+        <small class="error"
+          *ngIf="typeRef.invalid && (typeRef.touched || accountForm.submitted)">
+          Please select account type
+        </small>
+
+        <!-- BACKEND ERRORS -->
+        <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
+        <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+        <!-- SUBMIT -->
+        <button type="submit"
+                class="btn primary full"
+                [disabled]="accountForm.invalid || dobError">
+          Create Account
+        </button>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    © 2026 Mini Bank. All rights reserved.
+  </footer>
+
+</div>

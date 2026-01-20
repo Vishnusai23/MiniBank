@@ -1,0 +1,51 @@
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="logo">
+      <span class="logo-icon">🏦</span>
+      <span class="logo-text">Mini Bank</span>
+    </div>
+
+    <nav class="nav">
+      <button routerLink="/login" class="btn outline" >Login</button>
+      <button routerLink="/register" class="btn primary">Register</button>
+    </nav>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+    <h1>Secure. Simple. Smart Banking.</h1>
+    <p>
+      Manage your accounts, track transactions, and transfer money securely
+      with Mini Bank.
+    </p>
+
+    <div class="action-buttons">
+      <button routerLink="/register" class="btn primary large">
+        Open Account
+      </button>
+      <button class="btn secondary large" (click)="scrollToFeatures()">
+  Learn More
+</button>
+
+    </div>
+  </main>
+  <section class="features" id="features">
+  <h2>Why Mini Bank?</h2>
+
+  <div class="feature-list">
+    <div class="feature">🔐 Secure Transactions</div>
+    <div class="feature">⚡ Fast Transfers</div>
+    <div class="feature">📊 Real-time Balance</div>
+    <div class="feature">🏦 Admin Approved Accounts</div>
+  </div>
+</section>
+
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>© 2026 Mini Bank. All rights reserved.</p>
+  </footer>
+
+</div>

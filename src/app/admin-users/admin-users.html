@@ -1,0 +1,58 @@
+<div class="page">
+
+  <header class="header">
+    <div class="logo">
+      <span class="logo-icon">🏦</span>
+      <span class="logo-text">Mini Bank</span>
+    </div>
+  </header>
+
+  <main class="main-content">
+
+    <section class="users-card">
+
+      <h2>All Registered Users</h2>
+
+      <!-- Loading -->
+      <p *ngIf="loading">Loading users...</p>
+
+      <!-- Error -->
+      <p *ngIf="!loading && errorMessage" class="error">
+        {{ errorMessage }}
+      </p>
+
+      <!-- USERS TABLE (NO OVER-BLOCKING) -->
+      <table *ngIf="!loading && users.length > 0">
+        <thead>
+          <tr>
+            <th>User ID</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let user of users">
+            <td>{{ user.userId }}</td>
+            <td>{{ user.email }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- EMPTY STATE -->
+      <p *ngIf="!loading && users.length === 0 && !errorMessage">
+        No users found
+      </p>
+
+      <div class="actions">
+        <button class="btn back" (click)="goBack()">Back to Dashboard</button>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    © 2026 Mini Bank. All rights reserved.
+  </footer>
+
+</div>

@@ -1,0 +1,82 @@
+<div class="balance-page">
+    <header class="header">
+    <div class="logo">
+      <span class="logo-icon">🏦</span>
+      <span class="logo-text" Style="color:white">Mini Bank</span>
+    </div>
+
+    <nav class="nav">
+      <button type="button" class="btn outline" (click)="goDashboard()">
+        Dashboard
+      </button>
+      <button type="button" class="btn outline" (click)="logout()">
+        Logout
+      </button>
+    </nav>
+  </header>
+
+  <h2 class="title">Account Details</h2>
+
+  <!-- Loading -->
+  <p *ngIf="loading" class="loading">
+    Fetching account details...
+  </p>
+
+  <!-- Error -->
+  <p *ngIf="!loading && errorMessage" class="error">
+    {{ errorMessage }}
+  </p>
+
+  <!-- Account Card -->
+  <div *ngIf="!loading && balanceData" class="balance-card">
+
+    <!-- Basic Info -->
+    <div class="field">
+      <span class="label">Account Number</span>
+      <span class="value">{{ balanceData.accountNumber }}</span>
+    </div>
+
+    <div class="field">
+      <span class="label">Account Holder</span>
+      <span class="value">{{ balanceData.fullName }}</span>
+    </div>
+
+    <div class="field">
+      <span class="label">Account Type</span>
+      <span class="value">{{ balanceData.accountType }}</span>
+    </div>
+
+    <div class="field">
+      <span class="label">Phone Number</span>
+      <span class="value">{{ balanceData.phoneNumber }}</span>
+    </div>
+
+    <div class="field">
+      <span class="label">Status</span>
+      <span
+        class="value status"
+        [class.active]="balanceData.status === 'ACTIVE'">
+        {{ balanceData.status }}
+      </span>
+    </div>
+
+    <div class="field full-width">
+      <span class="label">Address</span>
+      <span class="value">{{ balanceData.address }}</span>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Balance Highlight -->
+    <div class="balance-section">
+      <span class="balance-label">Available Balance</span>
+      <span class="balance-amount">₹ {{ balanceData.balance }}</span>
+    </div>
+
+  </div>
+
+  <button class="btn" (click)="goBack()">Back to Dashboard</button>
+ <footer class="footer">
+    © 2026 Mini Bank. All rights reserved.
+  </footer>
+</div>

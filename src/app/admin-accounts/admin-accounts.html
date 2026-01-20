@@ -1,0 +1,76 @@
+<div class="page">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <span class="logo-icon">🏦</span>
+      <span class="logo-text">Mini Bank</span>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="main-content">
+
+    <section class="accounts-card">
+
+      <h2>All Bank Accounts</h2>
+
+      <!-- Loading -->
+      <p *ngIf="loading" class="info-text">
+        Loading accounts...
+      </p>
+
+      <!-- Error -->
+      <p *ngIf="!loading && errorMessage" class="error">
+        {{ errorMessage }}
+      </p>
+
+      <!-- Accounts Table -->
+      <table *ngIf="!loading && accounts.length > 0">
+  <thead>
+    <tr>
+      <th>Account No</th>
+      <th>Account Holder</th> <!-- ✅ NEW -->
+      <th>User Email</th>
+      <th>Account Type</th>
+      <th>Balance</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let acc of accounts">
+      <td>{{ acc.accountNumber }}</td>
+      <td>{{ acc.fullName }}</td>      <!-- ✅ NEW -->
+      <td>{{ acc.userEmail }}</td>
+      <td>{{ acc.accountType }}</td>
+      <td>₹ {{ acc.balance }}</td>
+      <td>{{ acc.status }}</td>
+    </tr>
+  </tbody>
+</table>
+
+
+      <!-- Empty State -->
+      <p *ngIf="!loading && accounts.length === 0 && !errorMessage"
+         class="info-text">
+        No accounts found
+      </p>
+
+      <!-- Back Button -->
+      <div class="actions">
+        <button class="btn back" (click)="goBack()">
+          Back to Dashboard
+        </button>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    © 2026 Mini Bank. All rights reserved.
+  </footer>
+
+</div>

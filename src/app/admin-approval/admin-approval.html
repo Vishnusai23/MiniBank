@@ -1,0 +1,84 @@
+<div class="page">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <span class="logo-icon">🏦</span>
+      <span class="logo-text">Mini Bank</span>
+    </div>
+  </header>
+
+  <!-- Main Content Wrapper -->
+  <main class="main-content">
+
+    <section class="approval-card">
+
+      <h2>Pending Account Approvals</h2>
+
+      <!-- Loading -->
+      <p *ngIf="loading" class="info-text">
+        Loading pending accounts...
+      </p>
+
+      <!-- Error -->
+      <p *ngIf="!loading && errorMessage" class="error">
+        {{ errorMessage }}
+      </p>
+
+      <!-- Table -->
+      <div class="table-wrapper" *ngIf="!loading && pendingAccounts.length > 0">
+        <table>
+          <thead>
+            <tr>
+              <th>Account No</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Account Type</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let acc of pendingAccounts">
+              <td>{{ acc.accountNumber }}</td>
+              <td>{{ acc.fullName }}</td>
+              <td>{{ acc.user.email }}</td>
+              <td>{{ acc.accountType }}</td>
+              <td>
+                <button class="approve" (click)="approve(acc.accountNumber)">
+                  Approve
+                </button>
+                <button class="reject" (click)="reject(acc.accountNumber)">
+                  Reject
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Empty State -->
+      <p
+        *ngIf="!loading && pendingAccounts.length === 0 && !errorMessage"
+        class="info-text"
+      >
+        🎉 No pending accounts
+      </p>
+
+      <!-- Back Button -->
+      <div class="actions">
+        <button class="btn back" (click)="goBack()">
+          Back to Dashboard
+        </button>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    © 2026 Mini Bank. All rights reserved.
+  </footer>
+
+</div>
