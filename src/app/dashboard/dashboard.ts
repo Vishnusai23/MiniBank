@@ -16,6 +16,7 @@ export class Dashboard {
     localStorage.removeItem('userToken');
     localStorage.removeItem('role');
     localStorage.removeItem('loggedInUser');
+    
 
     this.router.navigate(['/']);
   }

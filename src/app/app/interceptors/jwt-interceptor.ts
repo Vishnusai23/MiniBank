@@ -26,39 +26,31 @@
 // };
 
 import { HttpInterceptorFn } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
 
 export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
 
-  if (req.url.includes('/login') || req.url.includes('/register')) {
-    return next(req);
-  }
-
   let token: string | null = null;
 
-  const role =
-    localStorage.getItem('role') ||
-    sessionStorage.getItem('role');
-
-  if (role === 'USER') {
-    token = localStorage.getItem('userToken');
-  }
-
-  if (role === 'ADMIN') {
+  // 🔐 ADMIN TOKEN (sessionStorage)
+  const adminRole = sessionStorage.getItem('role');
+  if (adminRole === 'ADMIN') {
     token = sessionStorage.getItem('adminToken');
   }
 
+  // 👤 USER TOKEN (localStorage)
+  const userRole = localStorage.getItem('role');
+  if (userRole === 'USER') {
+    token = localStorage.getItem('userToken');
+  }
+
+  // 🚀 Attach token if exists
   if (token) {
     req = req.clone({
-      setHeaders: { Authorization: `Bearer ${token}` }
+      setHeaders: {
+        Authorization: `Bearer ${token}`
+      }
     });
   }
 
-  return next(req).pipe(
-    catchError(err => {
-      // 🚨 DO NOT transform the error
-      return throwError(() => err);
-    })
-  );
+  return next(req);
 };

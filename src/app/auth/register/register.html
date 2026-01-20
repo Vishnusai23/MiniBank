@@ -46,15 +46,16 @@
         <!-- PASSWORD -->
         <div class="form-group">
           <label>Password</label>
-          <input
-            type="password"
-            placeholder="Enter password"
-            [(ngModel)]="password"
-            name="password"
-            required
-            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&]).{8,}$"
-            #passwordRef="ngModel"
-          />
+         <input
+  type="password"
+  placeholder="Enter password"
+  [(ngModel)]="password"
+  name="password"
+  required
+  pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&])[A-Za-z0-9@$!%*?&]{6,}$"
+  #passwordRef="ngModel"
+/>
+
 
           <!-- Password Error -->
           <small class="error"
@@ -65,7 +66,7 @@
             </span>
 
             <span *ngIf="passwordRef.errors?.['pattern']">
-              Password must contain at least 8 characters,
+              Password must contain at least 6 characters,
               1 uppercase, 1 lowercase, 1 number,
               and 1 special character
             </span>

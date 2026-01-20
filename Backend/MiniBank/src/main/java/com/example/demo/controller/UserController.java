@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.Map;
+import java.util.HashMap;
 
 @RestController
 @RequestMapping("/api/users")
@@ -27,10 +29,15 @@ public class UserController {
 
     // ✅ LOGIN (RETURNS JWT TOKEN)
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
-        String token = userService.login(request); // throws exception if fails
-        return ResponseEntity.ok(token);
-    }
+public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+    String token = userService.login(request);
+
+    Map<String, String> response = new HashMap<>();
+    response.put("token", token);
+
+    return ResponseEntity.ok(response);
+}
+
 
 
 }

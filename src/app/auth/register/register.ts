@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
@@ -25,39 +25,43 @@ export class Register {
 
   constructor(
     private http: HttpClient,
-    private router: Router
+    private router: Router, private cdr: ChangeDetectorRef
   ) {}
 
- register(): void {
+register(): void {
 
+  // 🔥 Force UI update immediately
   this.errorMessage = '';
   this.successMessage = '';
+  this.cdr.detectChanges();
 
   // ❌ Prevent admin registration
   if (this.email.trim().toLowerCase() === 'admin') {
     this.errorMessage = 'Admin cannot be registered';
+    this.cdr.detectChanges();
     return;
   }
 
   if (!this.email.trim() || !this.password.trim()) {
     this.errorMessage = 'Email and password are required';
+    this.cdr.detectChanges();
     return;
   }
 
-  // ✅ Gmail validation
   const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
   if (!gmailRegex.test(this.email.trim())) {
     this.errorMessage = 'Email must be a valid @gmail.com address';
+    this.cdr.detectChanges();
     return;
   }
 
-  // ✅ Strong password validation
   const passwordRegex =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{6,}$/;
 
   if (!passwordRegex.test(this.password.trim())) {
     this.errorMessage =
-      'Password must contain at least 8 characters, 1 uppercase, 1 lowercase, 1 number, and 1 special character';
+      'Password must contain at least 6 characters, 1 uppercase, 1 lowercase, 1 number, and 1 special character';
+    this.cdr.detectChanges();
     return;
   }
 
@@ -75,6 +79,7 @@ export class Register {
       this.successMessage = 'Registration successful. Please login.';
       this.email = '';
       this.password = '';
+      this.cdr.detectChanges(); // 🔥 reflect instantly
 
       setTimeout(() => {
         this.router.navigate(['/login']);
@@ -82,8 +87,10 @@ export class Register {
     },
     error: (err) => {
       this.errorMessage = err?.error || 'Registration failed';
+      this.cdr.detectChanges(); // 🔥 reflect instantly
     }
   });
 }
+
 
 }
