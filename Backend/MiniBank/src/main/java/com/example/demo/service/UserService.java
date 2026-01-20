@@ -23,11 +23,11 @@ public class UserService {
     @Autowired
     private JwtUtil jwtUtil;
 
-    // ✅ REGISTER
-    public String register(RegisterRequest request) {
+ // ✅ REGISTER
+    public void register(RegisterRequest request) {
 
         if (userRepository.existsByEmail(request.getEmail())) {
-            return "Email already registered";
+            throw new RuntimeException("Email already registered");
         }
 
         User user = new User();
@@ -36,8 +36,8 @@ public class UserService {
         user.setRole(Role.USER);
 
         userRepository.save(user);
-        return "User registered successfully";
     }
+
 
     // ✅ LOGIN (RETURNS JWT)
 // public String login(LoginRequest request) {
