@@ -41,7 +41,8 @@
             <th>Date</th>
             <th>Type</th>
             <th>Amount (₹)</th>
-            <th>Description</th>
+            <th>Status</th>
+            <th>Remarks</th>
           </tr>
         </thead>
 
@@ -61,7 +62,18 @@
               ₹ {{ t.amount }}
             </td>
 
-            <td>{{ t.description }}</td>
+            <td>
+              <span
+                [ngClass]="{
+                  'success': t.status === 'SUCCESS',
+                  'failed': t.status === 'FAILED',
+                  'pending': t.status === 'PENDING'
+                }">
+                {{ t.status }}
+              </span>
+            </td>
+
+            <td>{{ t.remarks }}</td>
           </tr>
         </tbody>
       </table>

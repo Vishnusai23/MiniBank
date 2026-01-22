@@ -32,57 +32,71 @@ export class TransferComponent {
     private zone: NgZone
   ) {}
 
-  transfer(form?: any): void {
-    const email = localStorage.getItem('loggedInUser');
+ transfer(form?: any): void {
+  const email = localStorage.getItem('loggedInUser');
 
-    if (!email) {
-      this.errorMessage = 'User not logged in';
-      return;
+  if (!email) {
+    this.errorMessage = 'User not logged in';
+    return;
+  }
+
+  this.loading = true;
+  this.errorMessage = '';
+  this.successMessage = '';
+
+  const payload = {
+    receiverAccountNumber: this.receiverAccountNumber,
+    amount: this.amount
+  };
+
+  this.http.post<any>(
+    'http://localhost:8080/api/transactions/transfer',
+    payload,
+    {
+      headers: { 'X-USER-EMAIL': email }
     }
+  )
+  .pipe(
+    finalize(() => {
+      this.loading = false;
+      this.cdr.detectChanges();
+    })
+  )
+  .subscribe({
+    next: (res) => {
+      this.zone.run(() => {
 
-    this.loading = true;
-    this.errorMessage = '';
-    this.successMessage = '';
+        if (res?.status === 'CANCELLED' || res?.status === 'FAILED') {
+          this.errorMessage = res?.remarks || 'Transaction failed';
+          this.successMessage = '';
+          return;
+        }
 
-    const payload = {
-      receiverAccountNumber: this.receiverAccountNumber,
-      amount: this.amount
-    };
+        if (res?.status === 'SUCCESS') {
+          this.successMessage = res?.remarks || 'Transfer successful';
+          this.errorMessage = '';
 
-    this.http.post<any>(
-      'http://localhost:8080/api/transactions/transfer',
-      payload,
-      {
-        headers: { 'X-USER-EMAIL': email }
-      }
-    )
-    .pipe(
-      finalize(() => {
-        this.loading = false;
-        this.cdr.detectChanges();
-      })
-    )
-    .subscribe({
-      next: (res) => {
-        this.zone.run(() => {
-          this.successMessage = res?.message || 'Transfer successful';
-
-          // reset fields
           this.receiverAccountNumber = undefined!;
           this.amount = undefined!;
 
           if (form) {
             form.resetForm();
           }
-        });
-      },
-      error: (err) => {
-        this.zone.run(() => {
-          this.errorMessage = err?.error?.message || 'Transfer failed';
-        });
-      }
-    });
-  }
+          return;
+        }
+
+        this.errorMessage = 'Unexpected transaction response';
+      });
+    },
+    error: (err) => {
+      this.zone.run(() => {
+        this.errorMessage =
+          err?.error?.message || 'Transfer failed';
+      });
+    }
+  });
+}
+
 
   goDashboard() {
     this.router.navigate(['/dashboard']);

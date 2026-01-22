@@ -25,21 +25,57 @@
 //   return next(req);
 // };
 
+// import { HttpInterceptorFn } from '@angular/common/http';
+
+// export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
+
+//   let token: string | null = null;
+
+//   // 🔐 ADMIN TOKEN (sessionStorage)
+//   const adminRole = sessionStorage.getItem('role');
+//   if (adminRole === 'ADMIN') {
+//     token = sessionStorage.getItem('adminToken');
+//   }
+
+//   // 👤 USER TOKEN (localStorage)
+//   const userRole = localStorage.getItem('role');
+//   if (userRole === 'USER') {
+//     token = localStorage.getItem('userToken');
+//   }
+
+//   // 🚀 Attach token if exists
+//   if (token) {
+//     req = req.clone({
+//       setHeaders: {
+//         Authorization: `Bearer ${token}`
+//       }
+//     });
+//   }
+
+//   return next(req);
+// };
+
+
 import { HttpInterceptorFn } from '@angular/common/http';
 
 export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
 
-  let token: string | null = null;
-
-  // 🔐 ADMIN TOKEN (sessionStorage)
-  const adminRole = sessionStorage.getItem('role');
-  if (adminRole === 'ADMIN') {
-    token = sessionStorage.getItem('adminToken');
+  // 🚫 Skip auth APIs
+  if (
+    req.url.includes('/login') ||
+    req.url.includes('/register')
+  ) {
+    return next(req);
   }
 
-  // 👤 USER TOKEN (localStorage)
-  const userRole = localStorage.getItem('role');
-  if (userRole === 'USER') {
+  let token: string | null = null;
+
+  // 🔐 ADMIN APIs
+  if (req.url.includes('/api/admin')) {
+    token = sessionStorage.getItem('adminToken');
+  }
+  // 👤 USER APIs
+  else {
     token = localStorage.getItem('userToken');
   }
 

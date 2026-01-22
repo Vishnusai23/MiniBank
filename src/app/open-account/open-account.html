@@ -31,8 +31,8 @@
                minlength="3" />
 
         <small class="error"
-          *ngIf="fullNameRef.invalid && (fullNameRef.touched || accountForm.submitted)">
-          Full name is required (min 3 characters)
+          *ngIf="fullNameRef.invalid && (fullNameRef.dirty || accountForm.submitted)">
+          Full name must be at least 3 characters
         </small>
 
         <!-- DATE OF BIRTH -->
@@ -46,7 +46,7 @@
                (change)="validateDob()" />
 
         <small class="error" *ngIf="dobError">
-          Age must be 18+ and DOB within last 100 years
+          Age must be between 18 and 100 years
         </small>
 
         <!-- PHONE NUMBER -->
@@ -60,51 +60,32 @@
                pattern="^[6-9][0-9]{9}$" />
 
         <small class="error"
-          *ngIf="phoneRef.invalid && (phoneRef.touched || accountForm.submitted)">
+          *ngIf="phoneRef.invalid && (phoneRef.dirty || accountForm.submitted)">
           Enter a valid 10-digit phone number
         </small>
 
-        <!-- PAN NUMBER -->
+        <!-- IDENTITY TYPE -->
+        <select name="identityType"
+                [(ngModel)]="identityType"
+                required>
+          <option value="AADHAAR">Aadhaar</option>
+          <option value="PASSPORT">Passport</option>
+        </select>
+
+        <!-- IDENTITY NUMBER -->
         <input type="text"
-               placeholder="PAN Number"
-               name="panNumber"
-               maxlength="10"
-               [(ngModel)]="panNumber"
-               #panRef="ngModel"
+               placeholder="Identity Number"
+               name="identityNumber"
+               [(ngModel)]="identityNumber"
+               #identityRef="ngModel"
                required
-               pattern="^[A-Z]{5}[0-9]{4}[A-Z]$" />
+               [maxlength]="identityType === 'AADHAAR' ? 12 : 20"
+               [pattern]="identityType === 'AADHAAR' ? '^[0-9]{12}$' : '.*'" />
 
         <small class="error"
-          *ngIf="panRef.invalid && (panRef.touched || accountForm.submitted)">
-          PAN must be in format ABCDE1234F
-        </small>
-
-        <!-- AADHAAR NUMBER -->
-        <input type="text"
-               placeholder="Aadhaar Number"
-               name="aadhaarNumber"
-               maxlength="12"
-               [(ngModel)]="aadhaarNumber"
-               #aadhaarRef="ngModel"
-               required
-               pattern="^[0-9]{12}$" />
-
-        <small class="error"
-          *ngIf="aadhaarRef.invalid && (aadhaarRef.touched || accountForm.submitted)">
-          Aadhaar must be exactly 12 digits
-        </small>
-
-        <!-- ADDRESS -->
-        <textarea placeholder="Address"
-                  name="address"
-                  [(ngModel)]="address"
-                  #addressRef="ngModel"
-                  required
-                  minlength="10"></textarea>
-
-        <small class="error"
-          *ngIf="addressRef.invalid && (addressRef.touched || accountForm.submitted)">
-          Address must be at least 10 characters
+          *ngIf="identityRef.invalid && identityType === 'AADHAAR'
+                 && (identityRef.dirty || accountForm.submitted)">
+          Aadhaar number must be exactly 12 digits
         </small>
 
         <!-- ACCOUNT TYPE -->
@@ -118,19 +99,19 @@
         </select>
 
         <small class="error"
-          *ngIf="typeRef.invalid && (typeRef.touched || accountForm.submitted)">
+          *ngIf="typeRef.invalid && (typeRef.dirty || accountForm.submitted)">
           Please select account type
         </small>
 
-        <!-- BACKEND ERRORS -->
+        <!-- BACKEND MESSAGES -->
         <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
         <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
 
         <!-- SUBMIT -->
         <button type="submit"
                 class="btn primary full"
-                [disabled]="accountForm.invalid || dobError">
-          Create Account
+                [disabled]="accountForm.invalid || dobError || isSubmitting">
+          {{ isSubmitting ? 'Processing...' : 'Create Account' }}
         </button>
 
       </form>
