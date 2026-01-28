@@ -1,0 +1,55 @@
+<div class="page">
+
+ <header class="header">
+  <div class="logo">
+    <span class="logo-icon">🏦</span>
+    <span class="logo-text">Mini Bank</span>
+  </div>
+
+  <!-- Small green Register button -->
+  <button
+    class=" register-btn"
+    (click)="goToRegister()">
+    Back to Register
+  </button>
+</header>
+
+
+
+  <!-- MAIN -->
+  <main class="otp-main">
+    <div class="otp-card">
+      <h2>Email Verification</h2>
+
+      <p class="subtitle">
+        Enter the OTP sent to
+        <span class="email">{{ email }}</span>
+      </p>
+
+      <input
+        type="text"
+        maxlength="6"
+        class="otp-input"
+        placeholder="Enter 6-digit OTP"
+        [(ngModel)]="otp"
+      />
+
+      <button class="btn outline primary-btn" (click)="verifyOtp()">
+        Verify OTP
+      </button>
+
+      <button class="btn outline resend-btn" (click)="resendOtp()">
+        Resend OTP
+      </button>
+
+      <p class="success" *ngIf="message">{{ message }}</p>
+      <p class="error" *ngIf="error">{{ error }}</p>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    © 2026 Mini Bank. All rights reserved.
+  </footer>
+
+</div>

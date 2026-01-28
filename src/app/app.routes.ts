@@ -17,6 +17,7 @@ import { AdminUsersComponent } from './admin-users/admin-users';
 import { AdminAccountsComponent } from './admin-accounts/admin-accounts';
 import { AdminAccountsComponents } from './admin-changestatus/admin-changestatus';
 import { AdminTransactionsComponent } from './admin-transactions/admin-transactions';
+import { OtpVerification } from './otp-verification/otp-verification';
 
 // ✅ GUARDS
 import { userAuthGuard } from './app/guards/user-auth-guard';
@@ -91,5 +92,10 @@ export const routes: Routes = [
     path: 'admin-viewtransactions',
     component: AdminTransactionsComponent,
     canActivate: [adminAuthGuard]
-  }
+  },
+  {
+  path: 'verify-otp',
+  component: OtpVerification
+}
+
 ];

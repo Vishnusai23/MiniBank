@@ -1,0 +1,170 @@
+/* Same page layout as dashboard */
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: #ffffff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Header */
+.header {
+  height: 70px;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-icon {
+  font-size: 26px;
+}
+
+.logo-text {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+/* Main center area */
+.otp-main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+/* Glass card (same as action-card) */
+.otp-card {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
+  border-radius: 18px;
+  padding: 40px 35px;
+  width: 380px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.otp-card:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+/* Headings */
+.otp-card h2 {
+  font-size: 26px;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  opacity: 0.9;
+  margin-bottom: 25px;
+}
+
+.email {
+  font-weight: 600;
+}
+
+/* OTP input */
+.otp-input {
+  width: 100%;
+  padding: 14px;
+  font-size: 20px;
+  text-align: center;
+  letter-spacing: 6px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  margin-bottom: 22px;
+  background: rgba(255, 255, 255, 0.85);
+  color: #203a43;
+}
+
+/* Buttons — reuse dashboard outline style */
+.btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid #ffffff;
+  background: transparent;
+  color: #ffffff;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.resend-btn {
+  margin-top: 10px;
+}
+
+/* Messages */
+.success {
+  margin-top: 15px;
+  color: #b7ffda; /* soft green on dark bg */
+  font-weight: 600;
+}
+
+.error {
+  margin-top: 15px;
+  color: #ffb3b3; /* soft red on dark bg */
+  font-weight: 600;
+}
+
+/* Footer */
+.footer {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.25);
+  font-size: 13px;
+  opacity: 0.9;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .otp-card {
+    width: 100%;
+    padding: 30px 25px;
+  }
+
+  .otp-card h2 {
+    font-size: 22px;
+  }
+}
+.nav-btn {
+  margin-left: auto;
+}
+/* Small green register button in navbar */
+.register-btn {
+  margin-left: auto;           /* push to right end */
+  padding: 6px 14px;           /* small size */
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 6px;
+  background: #2ecc71;         /* green */
+  color: #0f2027;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width:200px;
+  height:40px;
+}
+
+.register-btn:hover {
+  background: #27ae60;
+  transform: translateY(-1px);
+}

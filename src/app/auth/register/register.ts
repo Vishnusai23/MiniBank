@@ -76,14 +76,13 @@ register(): void {
     { responseType: 'text' }
   ).subscribe({
     next: () => {
-      this.successMessage = 'Registration successful. Please login.';
-      this.email = '';
-      this.password = '';
-      this.cdr.detectChanges(); // 🔥 reflect instantly
+      this.successMessage = 'OTP sent to your email';
+this.cdr.detectChanges();
 
-      setTimeout(() => {
-        this.router.navigate(['/login']);
-      }, 1500);
+this.router.navigate(['/verify-otp'], {
+  state: { email: this.email.trim() }
+});
+
     },
     error: (err) => {
       this.errorMessage = err?.error || 'Registration failed';
